@@ -4,6 +4,8 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 from views import get_all_animals, get_single_animal, get_single_location, get_all_locations
 from views import get_all_employees, get_single_employee, get_all_customers, get_single_customer
 from views import create_animal, create_location, create_employee, create_customer
+from views import delete_animal, delete_location, delete_customer, delete_employee
+from views import update_animal, update_customer, update_employee, update_location
 
 
 # Here's a class. It inherits from another class.
@@ -21,7 +23,7 @@ class HandleRequests(BaseHTTPRequestHandler):
     
     
     
-    
+    #^GET REQUESTS
     # Here's a method on the class that overrides the parent's method.
     # It handles any GET request.
     def do_GET(self):
@@ -68,7 +70,7 @@ class HandleRequests(BaseHTTPRequestHandler):
     
     
     
-    
+    #^POST REQUESTS
     #! Here's a method on the class that overrides the parent's method.
     #! It handles any POST request.
     def do_POST(self):
@@ -125,10 +127,96 @@ class HandleRequests(BaseHTTPRequestHandler):
 
 
 
+    #^PUT REQUEST
     # A method that handles any PUT request.
     def do_PUT(self):
-        """Handles PUT requests to the server"""
-        self.do_PUT()
+        self._set_headers(204)
+        content_len = int(self.headers.get('content-length', 0))
+        post_body = self.rfile.read(content_len)
+        post_body = json.loads(post_body)
+
+        # Parse the URL
+        (resource, id) = self.parse_url(self.path)
+
+        #*animal PUT request
+        # Delete a single animal from the list
+        if resource == "animals":
+            update_animal(id, post_body)
+
+        # Encode the new animal and send in response
+        self.wfile.write("".encode())
+
+         #*location PUT request
+        # Delete a single location from the list
+        if resource == "locations":
+            update_location(id, post_body)
+
+        # Encode the new location and send in response
+        self.wfile.write("".encode())
+
+
+         #*employee PUT request
+        # Delete a single employee from the list
+        if resource == "employees":
+            update_employee(id, post_body)
+
+        # Encode the new employee and send in response
+        self.wfile.write("".encode())
+
+
+         #*customer PUT request
+        # Delete a single customer from the list
+        if resource == "customers":
+            update_customer(id, post_body)
+
+        # Encode the new customer and send in response
+        self.wfile.write("".encode())
+ 
+
+
+    #^DELETE REQUEST
+    def do_DELETE(self):
+        """Handles DELETE requests to the server"""
+        # Set a 204 response code
+        self._set_headers(204)
+
+        # Parse the URL
+        (resource, id) = self.parse_url(self.path)
+
+
+        #*animal DELETE request
+        # Delete a single animal from the list
+        if resource == "animals":
+            delete_animal(id)
+
+        # Encode the new animal and send in response
+        self.wfile.write("".encode())
+
+        #*location DELETE request
+        # Delete a single location from the list
+        if resource == "locations":
+            delete_location(id)
+
+        # Encode the new location and send in response
+        self.wfile.write("".encode())
+
+
+        #*employee DELETE request
+        # Delete a single employee from the list
+        if resource == "employees":
+            delete_employee(id)
+
+        # Encode the new employee and send in response
+        self.wfile.write("".encode())
+
+
+        #*customer DELETE request
+        # Delete a single customer from the list
+        if resource == "customers":
+            delete_customer(id)
+
+        # Encode the new customer and send in response
+        self.wfile.write("".encode())
 
 
 
