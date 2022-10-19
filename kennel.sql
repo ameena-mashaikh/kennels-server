@@ -81,3 +81,18 @@ SELECT
     a.address
 FROM location a
 WHERE a.id = 2
+
+SELECT
+    c.id,
+    c.name,
+    c.email,
+    c.password
+FROM customer c 
+WHERE c.id = 1
+
+SELECT
+    e.id,
+    e.name,
+    e.address,
+    e.location_id
+FROM employee e 
